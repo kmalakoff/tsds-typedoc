@@ -40,11 +40,12 @@
   },
   "dependencies": {
     "cross-spawn-cb": "*",
+    "fs-remove-compat": "*",
+    "getopts-compat": "*",
     "link-unlink": "*",
     "mkdirp-classic": "*",
     "queue-cb": "*",
     "resolve-bin-sync": "*",
-    "rimraf2": "*",
     "tsds-lib": "*",
     "typedoc": "*"
   },
