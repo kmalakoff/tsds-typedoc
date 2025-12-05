@@ -58,7 +58,7 @@ function addTests(repo) {
       it('docs', (done) => {
         docs([], { cwd: dest }, (err?: Error): undefined => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           // Verify docs folder was created
