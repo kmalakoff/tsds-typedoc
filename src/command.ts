@@ -3,17 +3,19 @@ import { safeRm } from 'fs-remove-compat';
 import getopts from 'getopts-compat';
 import { link, unlink } from 'link-unlink';
 import mkdirp from 'mkdirp-classic';
+import { wrap } from 'node-version-call';
 import path from 'path';
 import Queue from 'queue-cb';
 import resolveBin from 'resolve-bin-sync';
-import { type CommandCallback, type CommandOptions, installPath, loadConfig, wrapWorker } from 'tsds-lib';
+import type { CommandCallback, CommandOptions } from 'tsds-lib';
+import { installPath, loadConfig } from 'tsds-lib';
 import url from 'url';
 
 const major = +process.versions.node.split('.')[0];
 const version = major > 14 ? 'local' : 'stable';
 const __dirname = path.dirname(typeof __filename === 'undefined' ? url.fileURLToPath(import.meta.url) : __filename);
 const dist = path.join(__dirname, '..');
-const workerWrapper = wrapWorker(path.join(dist, 'cjs', 'command.js'));
+const workerWrapper = wrap(path.join(dist, 'cjs', 'command.js'));
 
 function worker(args: string[], options: CommandOptions, callback: CommandCallback) {
   const opts = getopts(args, { alias: { 'dry-run': 'd' }, boolean: ['dry-run'] });
