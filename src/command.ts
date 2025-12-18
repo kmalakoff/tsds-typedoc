@@ -3,7 +3,7 @@ import { safeRm } from 'fs-remove-compat';
 import getopts from 'getopts-compat';
 import { link, unlink } from 'link-unlink';
 import mkdirp from 'mkdirp-classic';
-import { wrap } from 'node-version-call';
+import { bind } from 'node-version-call';
 import path from 'path';
 import Queue from 'queue-cb';
 import resolveBin from 'resolve-bin-sync';
@@ -12,12 +12,10 @@ import { installPath, loadConfig } from 'tsds-lib';
 import url from 'url';
 
 const major = +process.versions.node.split('.')[0];
-const version = major > 14 ? 'local' : 'stable';
 const __dirname = path.dirname(typeof __filename === 'undefined' ? url.fileURLToPath(import.meta.url) : __filename);
 const dist = path.join(__dirname, '..');
-const workerWrapper = wrap(path.join(dist, 'cjs', 'command.js'));
 
-function worker(args: string[], options: CommandOptions, callback: CommandCallback) {
+function run(args: string[], options: CommandOptions, callback: CommandCallback) {
   const opts = getopts(args, { alias: { 'dry-run': 'd' }, boolean: ['dry-run'] });
   const filteredArgs = args.filter((arg) => arg !== '--dry-run' && arg !== '-d');
 
@@ -57,6 +55,8 @@ function worker(args: string[], options: CommandOptions, callback: CommandCallba
   }
 }
 
+const worker = major >= 20 ? run : bind('>=20', path.join(dist, 'cjs', 'command.js'), { callbacks: true });
+
 export default function docs(args: string[], options: CommandOptions, callback: CommandCallback) {
-  version !== 'local' ? workerWrapper('stable', args, options, callback) : worker(args, options, callback);
+  worker(args, options, callback);
 }
