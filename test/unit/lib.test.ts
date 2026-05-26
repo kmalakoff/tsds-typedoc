@@ -23,7 +23,7 @@ const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : 
 
 const GITS = ['https://github.com/kmalakoff/fetch-http-message.git'];
 
-function addTests(repo) {
+function addTests(repo: string) {
   const repoName = path.basename(repo, path.extname(repo));
   describe(repoName, () => {
     const dest = path.join(tmpdir(), 'tsds-typedoc', shortHash(process.cwd()), repoName);
@@ -34,10 +34,7 @@ function addTests(repo) {
 
     before((cb) => {
       installGitRepo(repo, dest, (err?: Error): void => {
-        if (err) {
-          cb(err);
-          return;
-        }
+        if (err) return cb(err);
 
         const queue = new Queue(1);
         queue.defer(linkModule.bind(null, modulePath, nodeModules));
@@ -57,10 +54,8 @@ function addTests(repo) {
     describe('happy path', () => {
       it('docs', (done) => {
         docs([], { cwd: dest }, (err?: Error): void => {
-          if (err) {
-            done(err);
-            return;
-          }
+          if (err) return done(err);
+
           // Verify docs folder was created
           assert.ok(fs.existsSync(path.join(dest, 'docs')), 'docs folder should exist');
           done();

@@ -40,8 +40,8 @@ function run(args: string[], options: CommandOptions, callback: CommandCallback)
     const dest = path.join(cwd, 'docs');
 
     const queue = new Queue(1);
-    queue.defer(safeRm.bind(null, dest));
-    queue.defer(mkdirp.bind(null, dest));
+    queue.defer((cb) => safeRm(dest, (err) => cb(err ?? undefined)));
+    queue.defer((cb) => mkdirp(dest, (err) => cb(err ?? undefined)));
     queue.defer(link.bind(null, cwd, installPath(options))); // link the latest for tests
     queue.defer(spawn.bind(null, typedoc, [config.source, ...filteredArgs, '--excludeExternals', 'true'], options));
     queue.await((err) => {
@@ -51,7 +51,7 @@ function run(args: string[], options: CommandOptions, callback: CommandCallback)
       });
     });
   } catch (err) {
-    return callback(err);
+    return callback(err instanceof Error ? err : new Error(String(err)));
   }
 }
 
