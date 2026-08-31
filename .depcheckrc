@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "tsds-typedoc", "typedoc", "resolve-bin-sync", "ts-swc-loaders"]
+ignores: ["tsds-typedoc", "node-version-use", "ts-dev-stack", "typedoc", "resolve-bin-sync", "ts-swc-loaders"]

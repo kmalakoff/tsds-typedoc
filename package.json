@@ -55,7 +55,6 @@
     "@types/node": "*",
     "module-link-unlink": "^1.1.0",
     "node-version-use": "*",
-    "os-shim": "^0.1.3",
     "resolve": "^1.22.11",
     "short-hash": "^1.0.0",
     "ts-dev-stack": "*",
@@ -64,5 +63,11 @@
   },
   "engines": {
     "node": ">=0.8"
+  },
+  "allowScripts": {
+    "node-filename-to-dist-paths": true,
+    "node-semvers": true,
+    "node-version-use": true,
+    "thread-sleep-compat": true
   }
 }
