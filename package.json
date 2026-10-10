@@ -40,11 +40,11 @@
   },
   "dependencies": {
     "cross-spawn-cb": "^3.1.0",
-    "fs-remove-compat": "^1.0.0",
+    "fs-remove-compat": "^1.1.0",
     "getopts-compat": "^2.2.5",
     "link-unlink": "^1.1.0",
     "mkdirp-classic": "^0.5.3",
-    "node-version-call": "^3.0.0",
+    "node-version-call": "^3.2.0",
     "queue-cb": "^1.6.3",
     "resolve-bin-sync": "^1.0.12",
     "tsds-lib": "^1.21.1",
